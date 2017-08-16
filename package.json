@@ -8,8 +8,10 @@
     "npm": "5.3.0"
   },
   "scripts": {
+    "prestart": "npm run lint",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint ."
   },
   "author": "Joseph Morse <tamed.lionheart@gmail.com>",
   "license": "MIT",
@@ -19,6 +21,7 @@
     "passport-google-oauth20": "^1.0.0"
   },
   "devDependencies": {
+    "eslint": "^4.4.1",
     "nodemon": "^1.11.0"
   },
   "repository": {
