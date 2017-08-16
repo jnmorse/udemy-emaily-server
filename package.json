@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Authentication server setup for Emaily application",
   "main": "index.js",
   "engines": {
     "node": "6.11.2",
@@ -20,5 +20,19 @@
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnmorse/udemy-emaily-server.git"
+  },
+  "keywords": [
+    "react",
+    "udemy",
+    "nodejs",
+    "full-stack"
+  ],
+  "bugs": {
+    "url": "https://github.com/jnmorse/udemy-emaily-server/issues"
+  },
+  "homepage": "https://github.com/jnmorse/udemy-emaily-server#readme"
 }
