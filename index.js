@@ -7,7 +7,15 @@ const keys = require('./config/keys.js');
 require('./models/User');
 require('./services/passport');
 
-mongoose.connect(keys.mlab.uri, keys.mlab.options);
+mongoose.Promise = global.Promise; // Gets rid of other deprecation warning
+
+mongoose.connect(
+  keys.mlab.uri,
+  Object.assign(
+    {},
+    keys.mlab.options,
+    { useMongoClient: true } // Gets rid of deprecation warning
+  ));
 
 // Set App Variable
 const app = express();
