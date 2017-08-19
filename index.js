@@ -11,11 +11,8 @@ mongoose.Promise = global.Promise; // Gets rid of other deprecation warning
 
 mongoose.connect(
   keys.mlab.uri,
-  Object.assign(
-    {},
-    keys.mlab.options,
-    { useMongoClient: true } // Gets rid of deprecation warning
-  ));
+  { ...keys.mlab.options, useMongoClient: true }
+);
 
 // Set App Variable
 const app = express();
