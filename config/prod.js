@@ -10,5 +10,9 @@ module.exports = {
       pass: process.env.MONGO_PASS
     }
   },
+  stripe: {
+    public: process.env.STRIPE_PUB,
+    private: process.env.STRIPE_PRIV
+  },
   cookieKey: process.env.COOKIE_KEY
 };
