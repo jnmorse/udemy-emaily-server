@@ -30,4 +30,12 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use('/static', express.static(`${__dirname}/client/build/static`));
+
+  app.get('*', (req, res) => {
+    res.sendFile(`${__dirname}/client/build/index.html`);
+  });
+}
+
 app.listen(PORT);
