@@ -31,7 +31,7 @@ require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use('/static', express.static(`${__dirname}/client/build/static`));
+  app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
     res.sendFile(`${__dirname}/client/build/index.html`);

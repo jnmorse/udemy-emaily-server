@@ -12,7 +12,9 @@
     "server": "nodemon index.js",
     "lint": "eslint .",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild":
+      "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn build --prefix client"
   },
   "author": "Joseph Morse <tamed.lionheart@gmail.com>",
   "license": "MIT",
@@ -34,12 +36,7 @@
     "type": "git",
     "url": "git+https://github.com/jnmorse/udemy-emaily-server.git"
   },
-  "keywords": [
-    "react",
-    "udemy",
-    "nodejs",
-    "full-stack"
-  ],
+  "keywords": ["react", "udemy", "nodejs", "full-stack"],
   "bugs": {
     "url": "https://github.com/jnmorse/udemy-emaily-server/issues"
   },
