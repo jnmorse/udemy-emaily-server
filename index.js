@@ -28,8 +28,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes')(app);
-require('./routes/billingRoutes')(app);
+require('./routes/auth-routes')(app);
+require('./routes/billing-routes')(app);
+require('./routes/survey-routes')(app);
 
 // Only use in production
 if (process.env.NODE_ENV === 'production') {
