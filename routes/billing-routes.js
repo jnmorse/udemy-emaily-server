@@ -12,9 +12,12 @@ module.exports = app => {
       source: req.body.id
     });
 
-    req.user.credits += 5;
-    const user = await req.user.save();
+    if (charge.paid) {
+      req.user.credits += 5;
+      const user = await req.user.save();
+      return res.send(user);
+    }
 
-    res.send(user);
+    res.send(req.user);
   });
 };
