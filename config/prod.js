@@ -14,5 +14,9 @@ module.exports = {
     public: process.env.STRIPE_PUB,
     private: process.env.STRIPE_PRIV
   },
-  cookieKey: process.env.COOKIE_KEY
+  cookieKey: process.env.COOKIE_KEY,
+  sendgrid: {
+    key: process.env.SENDGRID_KEY
+  },
+  redirectDomain: process.env.REDIRECT_DOMAIN
 };
