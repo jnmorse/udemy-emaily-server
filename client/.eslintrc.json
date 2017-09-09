@@ -2,6 +2,7 @@
     "extends": "react-app",
     "rules": {
         "indent": ["error", 2],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "max-len": ["warn", 80]
     }
 }

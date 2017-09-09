@@ -1,14 +1,32 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import SurveyField from './SurveyField';
+import validateEmails from '../../utils/validate-emails';
 
 const FIELDS = [
-  { label: 'Survey Title', name: 'title', autoFocus: true },
-  { label: 'Subject Line', name: 'subject' },
-  { label: 'E-Mail body', name: 'body' },
-  { label: 'Recipient List', name: 'recipients' },
+  {
+    label: 'Survey Title',
+    name: 'title',
+    autoFocus: true,
+    noValueError: 'You must provide a title'
+  },
+  {
+    label: 'Subject Line',
+    name: 'subject',
+    noValueError: 'You must include a subject'
+  },
+  {
+    label: 'E-Mail body',
+    name: 'body',
+    noValueError: 'Must provide the email body message'
+  },
+  {
+    label: 'Recipient List',
+    name: 'recipients',
+    noValueError: 'Must include a comma seperated list of recipients'
+  },
 ];
 
 class SurveyForm extends Component {
@@ -41,9 +59,13 @@ class SurveyForm extends Component {
 function validate(values) {
   const errors = {};
   
-  if (!values.title) {
-    errors.title = 'You must provide a title';
-  }
+  errors.recipients = validateEmails(values.recipients || '');
+  
+  _.forEach(FIELDS, ({ name, noValueError }) => {
+    if (!values[name]) {
+      errors[name] = noValueError;
+    }
+  });
   
   return errors;
 }
