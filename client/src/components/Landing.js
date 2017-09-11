@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Landing = () => (
-  <div className="center">
-    <h1>Emaily!</h1>
+  <header className="center">
+    <h2>Emaily!</h2>
     <p>Collect feedback from your users</p>
-  </div>
+  </header>
 );
 
 export default Landing;

@@ -26,13 +26,17 @@ class Header extends Component {
     return (
       <nav>
         <div className="nav-wrapper">
-          <Link
-            to={this.props.auth ? '/surveys' : '/'}
-            className="left brand-logo"
-            style={{ padding: "0 10px" }}
-          >
-            E-Maily
-          </Link>
+          <header>
+            <h1 style={{ margin: 0 }}>
+              <Link
+                to={this.props.auth ? '/surveys' : '/'}
+                className="left brand-logo"
+                style={{ padding: "0 10px" }}
+              >
+                E-Maily
+              </Link>
+            </h1>
+          </header>
           
           <ul id="nav-mobile" className="right">
             {this.renderContent()}
