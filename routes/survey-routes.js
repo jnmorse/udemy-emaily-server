@@ -2,18 +2,53 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middleware/require-login');
 const requireCredits = require('../middleware/require-credits');
 const Mailer = require('../services/Mailer');
+// const _ = require('lodash');
+const map = require('lodash/fp/map');
+const flow = require('lodash/fp/flow');
+const forEach = require('lodash/fp/forEach');
+const compact = require('lodash/fp/compact');
+const uniqBy = require('lodash/uniqBy');
+const pathParser = require('path-parser');
+const { URL } = require('url');
 const surveyTemplate = require('../services/emailTemplates/survey-template');
 
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.get('/api/surveys/thanks', (req, res) => {
+  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting!');
   });
   
   app.post('/api/surveys/webhooks', (req, res) => {
-    console.log(req.body);
-    res.send({});
+    const p = new pathParser('/api/surveys/:surveyId/:choice');
+    
+    const updateSurveys = flow(
+      map(({email, url}) => {
+        const pathname = new URL(url).pathname;
+        const match = p.test(pathname);
+        
+        if (match) {
+          return { email, surveyId: match.surveyId, choice: match.choice };
+        }
+      }),
+      compact,
+      event => uniqBy(event, 'email', 'surveyId'),
+      forEach(({surveyId, email, choice }) => {
+        Survey.updateOne({
+          _id: surveyId,
+          recipients: {
+            $elemMatch: { email, responded: false }
+          }
+        }, {
+          $inc: { [choice]: 1 },
+          $set: { 'recipients.$.responded': true }
+        }).exec();
+      })
+    );
+    
+    updateSurveys(req.body);
+    
+    res.send('Okay');
   });
 
   app.post(
