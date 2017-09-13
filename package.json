@@ -5,16 +5,18 @@
     "main": "index.js",
     "engines": {
         "node": "8.4.0",
-        "npm": "5.3.0"
+        "npm": "5.4.1",
+        "yarn": "1.0.1"
     },
     "scripts": {
+        "postinstall": "npm install --prefix client",
         "start": "node index.js",
         "server": "nodemon index.js",
         "build": "npm run --prefix client build",
         "lint": "eslint . && npm run lint --prefix client",
         "client": "npm run start --prefix client",
         "dev": "npm-run-all -p server client webhook",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build --prefix client",
         "webhook": "node local-tunnel.js"
     },
     "author": "Joseph Morse <tamed.lionheart@gmail.com>",
