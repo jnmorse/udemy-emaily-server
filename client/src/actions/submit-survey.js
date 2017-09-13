@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FETCH_USER } from './types';
 
-export const submitSurvey = (values, history) => async dispatch => {
+export default (values, history) => async dispatch => {
   const res = await axios.post('/api/surveys', values);
   
   history.push('/surveys');
