@@ -9,14 +9,14 @@
         "yarn": "1.0.1"
     },
     "scripts": {
-        "postinstall": "npm install --prefix client",
+        "postinstall": "yarn install --cwd client",
         "start": "node index.js",
         "server": "nodemon index.js",
         "build": "npm run --prefix client build",
         "lint": "eslint . && npm run lint --prefix client",
         "client": "npm run start --prefix client",
         "dev": "npm-run-all -p server client webhook",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build --prefix client",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build --cwd client",
         "webhook": "node local-tunnel.js"
     },
     "author": "Joseph Morse <tamed.lionheart@gmail.com>",
