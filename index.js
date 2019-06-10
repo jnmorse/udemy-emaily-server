@@ -1,18 +1,21 @@
-const PORT = process.env.PORT || 5000;
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+
+const PORT = process.env.PORT || 5000;
+
 const keys = require('./config/keys.js');
+
 require('./models/User');
 require('./models/Survey');
 require('./services/passport');
 
 mongoose.Promise = global.Promise; // Gets rid of other deprecation warning
 
-mongoose.connect(keys.mlab.uri, { ...keys.mlab.options, useMongoClient: true });
+mongoose.connect(keys.mlab.uri, { ...keys.mlab.options, useNewUrlParser: true });
 
 // Set App Variable
 const app = express();
