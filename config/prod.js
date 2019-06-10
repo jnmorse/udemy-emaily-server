@@ -19,4 +19,4 @@ module.exports = {
     key: process.env.SENDGRID_KEY
   },
   redirectDomain: process.env.REDIRECT_DOMAIN
-};
+}

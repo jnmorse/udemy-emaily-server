@@ -1,63 +1,68 @@
-const mongoose = require('mongoose');
-const requireLogin = require('../middleware/require-login');
-const requireCredits = require('../middleware/require-credits');
-const Mailer = require('../services/Mailer');
+const mongoose = require('mongoose')
+const requireLogin = require('../middleware/require-login')
+const requireCredits = require('../middleware/require-credits')
+const Mailer = require('../services/Mailer')
 // const _ = require('lodash');
-const map = require('lodash/fp/map');
-const flow = require('lodash/fp/flow');
-const forEach = require('lodash/fp/forEach');
-const compact = require('lodash/fp/compact');
-const uniqBy = require('lodash/uniqBy');
-const pathParser = require('path-parser');
-const { URL } = require('url');
-const surveyTemplate = require('../services/emailTemplates/survey-template');
+const map = require('lodash/fp/map')
+const flow = require('lodash/fp/flow')
+const forEach = require('lodash/fp/forEach')
+const compact = require('lodash/fp/compact')
+const uniqBy = require('lodash/uniqBy')
+const PathParser = require('path-parser')
+const { URL } = require('url')
+const surveyTemplate = require('../services/emailTemplates/survey-template')
 
-const Survey = mongoose.model('surveys');
+const Survey = mongoose.model('surveys')
 
+/* eslint-disable max-lines-per-function */
 module.exports = app => {
   app.get('/api/surveys/:surveyId/:choice', (req, res) => {
-    res.send('Thanks for voting!');
-  });
-  
+    res.send('Thanks for voting!')
+  })
+
   app.post('/api/surveys/webhooks', (req, res) => {
-    const p = new pathParser('/api/surveys/:surveyId/:choice');
-    
+    const p = new PathParser('/api/surveys/:surveyId/:choice')
+
     const updateSurveys = flow(
-      map(({email, url}) => {
-        const pathname = new URL(url).pathname;
-        const match = p.test(pathname);
-        
+      // eslint-disable-next-line consistent-return
+      map(({ email, url }) => {
+        const { pathname } = new URL(url)
+        const match = p.test(pathname)
+
         if (match) {
-          return { email, surveyId: match.surveyId, choice: match.choice };
+          return { email, surveyId: match.surveyId, choice: match.choice }
         }
       }),
       compact,
       event => uniqBy(event, 'email', 'surveyId'),
-      forEach(({surveyId, email, choice }) => {
-        Survey.updateOne({
-          _id: surveyId,
-          recipients: {
-            $elemMatch: { email, responded: false }
+      forEach(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { 'recipients.$.responded': true },
+            lastResponed: new Date()
           }
-        }, {
-          $inc: { [choice]: 1 },
-          $set: { 'recipients.$.responded': true },
-          lastResponed: new Date()
-        }).exec();
+        ).exec()
       })
-    );
-    
-    updateSurveys(req.body);
-    
-    res.send('Okay');
-  });
+    )
+
+    updateSurveys(req.body)
+
+    res.send('Okay')
+  })
 
   app.post(
     '/api/surveys',
     requireLogin(),
     requireCredits(),
     async (req, res) => {
-      const { title, subject, body, recipients } = req.body;
+      const { title, subject, body, recipients } = req.body
 
       const survey = new Survey({
         title,
@@ -68,30 +73,30 @@ module.exports = app => {
           .map(email => ({ email: email.trim() })),
         _user: req.user.id,
         dateSent: Date.now()
-      });
+      })
 
-      const mailer = new Mailer(survey, surveyTemplate(survey));
+      const mailer = new Mailer(survey, surveyTemplate(survey))
 
       try {
-        await mailer.send();
-        await survey.save();
+        await mailer.send()
+        await survey.save()
 
-        req.user.credits -= 1;
-        const user = await req.user.save();
+        req.user.credits -= 1
+        const user = await req.user.save()
 
-        res.send(user);
+        res.send(user)
       } catch (err) {
-        res.status(422).send(err);
+        res.status(422).send(err)
       }
     }
-  );
-  
+  )
+
   app.get('/api/surveys', requireLogin(), async (req, res) => {
-    const surveys = await Survey.find({ _user: req.user.id })
-      .select({
-        recipients: false
-      });
-    
-    res.send(surveys);
-  });
-};
+    const surveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false
+    })
+
+    res.send(surveys)
+  })
+}
+/* eslint-enable max-lines-per-function */

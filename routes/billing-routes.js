@@ -1,7 +1,7 @@
 // const passport = require('passport');
-const keys = require('../config/keys');
-const stripe = require('stripe')(keys.stripe.private);
-const requireLogin = require('../middleware/require-login');
+const keys = require('../config/keys')
+const stripe = require('stripe')(keys.stripe.private)
+const requireLogin = require('../middleware/require-login')
 
 module.exports = app => {
   app.post('/api/stripe', requireLogin(), async (req, res) => {
@@ -10,14 +10,14 @@ module.exports = app => {
       currency: 'usd',
       description: '$5 for 5 credits',
       source: req.body.id
-    });
+    })
 
     if (charge.paid) {
-      req.user.credits += 5;
-      const user = await req.user.save();
-      return res.send(user);
+      req.user.credits += 5
+      const user = await req.user.save()
+      return res.send(user)
     }
 
-    res.send(req.user);
-  });
-};
+    return res.send(req.user)
+  })
+}
