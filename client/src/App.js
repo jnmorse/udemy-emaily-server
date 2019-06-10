@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from './actions';
 
@@ -12,16 +12,20 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
   }
-  
+
   render() {
-    return(
+    return (
       <BrowserRouter>
         <main className="container">
           <header><h1 className="hide">Emaily</h1></header>
           <Header />
-          <Route exact path="/" component={ Landing } />
-          <Route exact path="/surveys" component={ Dashboard } />
-          <Route path="/surveys/new" component={ SurveyNew } />
+          <Route exact path="/" component={Landing} />
+          <Switch>
+            <Route exact path="/surveys" component={Dashboard} />
+            <Route exact path="/surveys/new">
+              <SurveyNew />
+            </Route>
+          </Switch>
         </main>
       </BrowserRouter>
     );
