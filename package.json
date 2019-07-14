@@ -35,19 +35,19 @@
         "cookie-session": "^1.3.1",
         "express": "^4.15.4",
         "localtunnel": "^1.8.3",
-        "lodash": "^4.17.4",
-        "mongoose": "^5.5.14",
+        "lodash": "^4.17.14",
+        "mongoose": "^5.6.4",
         "morgan": "^1.8.2",
         "npm-run-all": "^4.1.1",
         "passport": "^0.4.0",
         "passport-google-oauth20": "^2.0.0",
         "path-parser": "^4.2.0",
         "sendgrid": "^5.2.3",
-        "stripe": "^7.1.0"
+        "stripe": "^7.4.0"
     },
     "devDependencies": {
-        "eslint": "^5.16.0",
-        "eslint-config-jnmorse": "^2.4.0",
+        "eslint": "^6.0.1",
+        "eslint-config-jnmorse": "^2.5.0",
         "nodemon": "^1.12.0"
     },
     "engines": {
