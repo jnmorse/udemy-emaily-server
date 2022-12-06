@@ -31,9 +31,9 @@
         "webhook": "node local-tunnel.js"
     },
     "dependencies": {
-        "body-parser": "^1.18.1",
+        "body-parser": "^1.20.1",
         "cookie-session": "^1.3.1",
-        "express": "^4.15.4",
+        "express": "^4.18.2",
         "localtunnel": "^1.8.3",
         "lodash": "^4.17.14",
         "mongoose": "^5.6.4",
